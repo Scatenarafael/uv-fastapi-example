@@ -1,6 +1,8 @@
 from fastapi import FastAPI
+from fastapi.middleware.cors import CORSMiddleware
 
 from api import courses, sections, users
+from core.config import settings
 from db.db_setup import engine
 from db.models import course, user
 
@@ -19,6 +21,17 @@ app = FastAPI(
         "name": "MIT",
     },
 )
+
+
+# Set all CORS enabled origins
+if settings.all_cors_origins:
+    app.add_middleware(
+        CORSMiddleware,
+        allow_origins=settings.all_cors_origins,
+        allow_credentials=True,
+        allow_methods=["*"],
+        allow_headers=["*"],
+    )
 
 app.include_router(users.router)
 app.include_router(courses.router)
