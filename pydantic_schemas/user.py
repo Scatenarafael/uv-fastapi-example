@@ -1,15 +1,16 @@
 from datetime import datetime
+from enum import Enum
 
 from pydantic import BaseModel
 
 
 class UserBase(BaseModel):
     email: str
-    role: int
+    role: Enum
 
 
 class UserCreate(UserBase):
-    ...
+    pass
 
 
 class User(UserBase):
@@ -19,4 +20,5 @@ class User(UserBase):
     updated_at: datetime
 
     class Config:
-        orm_mode = True
+        # orm_mode = True
+        from_attributes = True
